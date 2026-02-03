@@ -43,13 +43,37 @@ def startup():
             db.add(demo_user)
             db.flush()
 
-            a1 = Account(account_id="ACC1001", owner_user_id=demo_user.user_id, status="active")
-            a2 = Account(account_id="ACC2001", owner_user_id=demo_user.user_id, status="active")
-            db.add_all([a1, a2])
+            # Create accounts
+            accounts = [
+                Account(account_id="ACC1001", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC2001", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3001", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3002", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3003", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3004", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3005", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3006", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3007", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3008", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3009", owner_user_id=demo_user.user_id, status="active"),
+                Account(account_id="ACC3010", owner_user_id=demo_user.user_id, status="active"),
+            ]
+            db.add_all(accounts)
             db.flush()
 
+            # Create balances
             db.add(AccountBalance(account_id="ACC1001", balance=1000.00))
             db.add(AccountBalance(account_id="ACC2001", balance=250.00))
+            db.add(AccountBalance(account_id="ACC3001", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3002", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3003", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3004", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3005", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3006", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3007", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3008", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3009", balance=500.00))
+            db.add(AccountBalance(account_id="ACC3010", balance=500.00))
             db.commit()
     finally:
         db.close()

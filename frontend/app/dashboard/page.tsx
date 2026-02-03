@@ -42,7 +42,8 @@ export default function DashboardPage() {
         method: "PATCH",
         body: JSON.stringify({ status: newStatus }),
       });
-      setMessage(`Account ${newStatus === "frozen" ? "frozen" : "activated"} successfully`);
+      const statusMsg = newStatus === "frozen" ? "frozen" : newStatus === "closed" ? "closed" : "activated";
+      setMessage(`Account ${statusMsg} successfully`);
       await loadAccounts();
     } catch (err: any) {
       setMessage(`Error: ${err.message}`);
@@ -95,7 +96,7 @@ export default function DashboardPage() {
             Current status: <strong>{accounts.find(a => a.account_id === selected)?.status || "unknown"}</strong>
           </p>
 
-          <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <button
               onClick={() => updateAccountStatus("frozen")}
               disabled={updating || accounts.find(a => a.account_id === selected)?.status === "frozen"}
@@ -123,6 +124,24 @@ export default function DashboardPage() {
               }}
             >
               Activate Account
+            </button>
+            <button
+              onClick={() => {
+                if (window.confirm("Are you sure you want to close this account? This action cannot be undone.")) {
+                  updateAccountStatus("closed");
+                }
+              }}
+              disabled={updating || accounts.find(a => a.account_id === selected)?.status === "closed"}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: accounts.find(a => a.account_id === selected)?.status === "closed" ? "#ccc" : "#6c757d",
+                color: "white",
+                border: "none",
+                borderRadius: 4,
+                cursor: updating || accounts.find(a => a.account_id === selected)?.status === "closed" ? "not-allowed" : "pointer",
+              }}
+            >
+              Close Account
             </button>
           </div>
 

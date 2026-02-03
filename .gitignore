@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.env
+.venv
+venv/
+
+# Node.js / Next.js
+node_modules/
+.next/
+
+# Environment variables
+.env
+.env.local
+
+# Database (Docker volumes)
+postgres-data/
+
+# Redis (Docker volumes)
+redis-data/
+
+# Docker
+docker-compose.override.yml
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Claude Code
+.claude/
