@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: mockbank
+      POSTGRES_USER: mockbank
+      POSTGRES_PASSWORD: mockbankpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://mockbank:mockbankpass@postgres:5432/mockbank
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: "dev_secret_change_me"
+      ACCESS_TOKEN_EXPIRE_MIN: "30"
+      RATE_LIMIT_PER_MIN_BALANCE: "60"
+      RATE_LIMIT_PER_MIN_TRANSFER: "10"
+      WEBHOOK_URL: "http://backend:8000/webhooks/transfer-status"
+      CORS_ORIGINS: "http://localhost:3000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+
+  frontend:
+    build: ./frontend
+    environment:
+      NEXT_PUBLIC_API_BASE: "http://localhost:8000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
